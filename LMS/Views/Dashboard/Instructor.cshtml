@@ -1,0 +1,141 @@
+﻿@model LMS.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Instructor Dashboard";
+}
+
+<h2 class="mb-3">Instructor Dashboard</h2>
+
+
+<!-- PROFILE CARD -->
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <h4>👋 Welcome, @Model.CurrentUser?.Name</h4>
+        <p class="mb-1"><b>Email:</b> @Model.CurrentUser?.Email</p>
+        <p class="mb-0"><b>Role:</b> @Model.Role</p>
+    </div>
+</div>
+
+
+<!-- KPI CARDS -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-white bg-primary shadow-sm">
+            <div class="card-body">
+                <h6>📚 Courses</h6>
+                <h3>@Model.TotalCourses</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success shadow-sm">
+            <div class="card-body">
+                <h6>👨‍🎓 Students</h6>
+                <h3>@Model.TotalStudents</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning shadow-sm">
+            <div class="card-body">
+                <h6>📝 Assignments</h6>
+                <h3>@Model.TotalAssignments</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger shadow-sm">
+            <div class="card-body">
+                <h6>⏳ Pending</h6>
+                <h3>@Model.PendingAssignments</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="row">
+   
+    <!-- RECENT COURSES -->   
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white">
+                📚 Recent Courses
+            </div>
+            <div class="card-body">
+
+                @if (Model.TotalCourses > 0)
+                {
+                    <p>You are managing active courses.</p>
+                    <a asp-page="/Courses/Index" class="btn btn-sm btn-primary">View Courses</a>
+                }
+                else
+                {
+                    <p>No courses available.</p>
+                }
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white">
+                ⚡ Quick Actions
+            </div>
+            <div class="card-body">
+
+                <a asp-page="/Courses/Create" class="btn btn-success btn-sm mb-2">
+                    ➕ Create Course
+                </a>
+
+                <a asp-page="/Assignments/Create" class="btn btn-warning btn-sm mb-2">
+                    ➕ Add Assignment
+                </a>
+
+                <a asp-page="/Enrollments/Index" class="btn btn-info btn-sm mb-2">
+                    👥 View Enrollments
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ANALYTICS SECTION -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+        📊 Teaching Overview
+    </div>
+    <div class="card-body">
+
+        <p><b>Course Activity Level</b></p>
+
+        <div class="progress mb-2">
+            <div class="progress-bar bg-success"
+                 style="width:@(Model.TotalCourses * 10)%">
+            </div>
+        </div>
+
+        <small class="text-muted">
+            Based on number of active courses
+        </small>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        console.log("Pro Instructor Dashboard Loaded");
+    </script>
+}

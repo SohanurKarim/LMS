@@ -1,0 +1,83 @@
+﻿@model IEnumerable<LMS.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h1>Courses List</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Instructor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Credits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxEnrollment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th> *@
+            <th>
+               Actions
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model ) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstructorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxEnrollment)
+            </td>
+            <td>
+                    @* @Html.DisplayFor(modelItem => item.StartDate.ToString("dd MMM yyyy")) *@
+                    @item.StartDate.ToString("dd MMM yyyy")
+            </td>
+            <td>
+                    @* @Html.DisplayFor(modelItem => item.EndDate.ToString("dd MMM yyyy")) *@
+                    @item.EndDate.ToString("dd MMM yyyy")
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td> *@
+            <td>
+                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

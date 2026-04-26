@@ -45,6 +45,16 @@ builder.Services.AddIdentity<User, IdentityRole>(
     .AddEntityFrameworkStores<LmsContext>()
     .AddDefaultTokenProviders();
 
+// Here add cookie authentication
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+    });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Here create roles
@@ -76,6 +86,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();   // must come before UseAuthorization
 app.UseAuthorization();
 
 app.MapControllerRoute(

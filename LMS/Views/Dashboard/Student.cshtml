@@ -1,0 +1,144 @@
+﻿@model LMS.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<h2 class="mb-3">Student Dashboard</h2>
+
+<!-- PROFILE CARD -->
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <h4>👋 Welcome, @Model.CurrentUser?.Name</h4>
+        <p class="mb-1"><b>Email:</b> @Model.CurrentUser?.Email</p>
+        <p class="mb-0"><b>Role:</b> @Model.Role</p>
+    </div>
+</div>
+
+<!-- KPI CARDS -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-white bg-primary shadow-sm">
+            <div class="card-body">
+                <h6>📚 Enrolled Courses</h6>
+                <h3>@Model.TotalEnrolledCourses</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success shadow-sm">
+            <div class="card-body">
+                <h6>📝 Assignments</h6>
+                <h3>@Model.TotalAssignments</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-info shadow-sm">
+            <div class="card-body">
+                <h6>✅ Completed</h6>
+                <h3>@Model.CompletedAssignments</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger shadow-sm">
+            <div class="card-body">
+                <h6>⏳ Pending</h6>
+                <h3>@Model.PendingAssignments</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="row">
+
+    <!-- ENROLLED COURSES -->
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white">
+                📚 My Courses
+            </div>
+            <div class="card-body">
+
+                @if (Model.EnrolledCourses != null && Model.EnrolledCourses.Any())
+                {
+                    <ul class="list-group">
+                        @foreach (var course in Model.EnrolledCourses.Take(5))
+                        {
+                            <li class="list-group-item">
+                                <b>@course.Title</b><br />
+                                <small>@course.Description</small>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No enrolled courses yet.</p>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white">
+                ⚡ Quick Actions
+            </div>
+            <div class="card-body">
+
+                <a asp-page="/Courses/Index" class="btn btn-primary btn-sm mb-2">
+                    📚 View Courses
+                </a>
+
+                <a asp-page="/Assignments/Index" class="btn btn-warning btn-sm mb-2">
+                    📝 View Assignments
+                </a>
+
+                <a asp-page="/StudentAssignments/Index" class="btn btn-success btn-sm mb-2">
+                    📤 Submit Assignment
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- PROGRESS SECTION -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-success text-white">
+        📊 Learning Progress
+    </div>
+    <div class="card-body">
+
+        <p><b>Completion Progress</b></p>
+
+        <div class="progress mb-2">
+            <div class="progress-bar bg-success"
+                 style="width:@Model.GradeProgress%">
+                @Model.GradeProgress.ToString("0")%
+            </div>
+        </div>
+
+        <small class="text-muted">
+            Based on completed assignments
+        </small>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        console.log("Student Dashboard Loaded");
+    </script>
+}

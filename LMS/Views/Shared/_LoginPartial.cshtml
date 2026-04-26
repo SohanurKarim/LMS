@@ -11,7 +11,7 @@
         string email = user != null ? user.Email : "User";
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="ChangePassword"><i class="fa-solid fa-key mx-2"></i>Change Password</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword"><i class="fa-solid fa-key mx-2"></i>Change Password</a>
         </li>    
 
 
@@ -24,16 +24,16 @@
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form> *@
 
-            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout"><i class="fa-solid fa-xl mx-2 fa-arrow-right-from-bracket"></i>Logout</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-xl mx-2 fa-arrow-right-from-bracket"></i>Logout</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Register"><i class="fa-solid fa-person fa-xl mx-2"></i>Register</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register"><i class="fa-solid fa-person fa-xl mx-2"></i>Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login"><i class="fa-solid fa-user mx-2"></i>Login</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login"><i class="fa-solid fa-user mx-2"></i>Login</a>
         </li>
     }
 </ul>

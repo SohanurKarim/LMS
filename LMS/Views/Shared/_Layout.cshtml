@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager  // Here we inject the UserManager to get the user's information, such as their name, to display in the navbar
+@inject SignInManager<User> SignInManager // Here we inject the SignInManager to check if the user is signed in
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,19 +27,52 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Courses">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Enrollments">Enrollments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Assignments">Assignments</a>
-                        </li>
+                        @* @if   (User.Identity.IsAuthenticated) *@
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                @if (User.IsInRole("Instructor"))
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Instructor">Dashboard</a>
+                                }
+                                else if (User.IsInRole("Student"))
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Student">Dashboard</a>
+                                }
+                            </li>
 
+                            @if (User.IsInRole("Instructor"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Course" asp-action="Index">Courses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Enrollments" asp-action="Enrollments">Enrollments</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Assignments" asp-action="Assignments">Assignments</a>
+                                </li>
+                            }
+
+                            @if (User.IsInRole("Student"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Courses" asp-action="Index">Courses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Assignments" asp-action="Index">Assignments</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Courses">Courses</a>
+                            </li>
+                        }
                     </ul>
                     @* This a Partial view *@
                     <partial name="_LoginPartial" />
@@ -50,7 +87,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container text-center text-capitalize">
             &copy; 2026 - LMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

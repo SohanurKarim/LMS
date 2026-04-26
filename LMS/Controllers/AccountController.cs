@@ -1,20 +1,22 @@
 ﻿using EmailSender.Helper;
 using LMS.Models;
 using LMS.Models.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace IdentyDemo.Controllers
+namespace LMS.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
         public readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public LoginController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,10 +45,11 @@ namespace IdentyDemo.Controllers
                     var res = await _userManager.CreateAsync(u, model.Password);
                     if (res.Succeeded)
                     {
-                        //EmailHelper emailHelper = new EmailHelper();
-                        //string subject = "Welcome to our website!";
-                        //string message = $"Dear {model.Name},<br><br>Thank you for registering on our website! We are excited to have you as a member of our community.<br>Your User Id: " + model.Email + "<br>Your Password Id: " + model.Password + "<br><br>Best regards,<br><font color='blue'> SFDW Team";
-                        //emailHelper.SendEmail(model.Email, subject, message);
+                        // Here Send Welcome Email
+                        EmailHelper emailHelper = new EmailHelper();
+                        string subject = "Welcome to our website!";
+                        string message = $"Dear {model.Name},<br><br>Thank you for registering on our website! We are excited to have you as a member of our community.<br>Your User Id: " + model.Email + "<br>Your Password Id: " + model.Password + "<br><br>Best regards,<br><font color='blue'> SFDW Team";
+                        emailHelper.SendEmail(model.Email, subject, message);
                         ////Here Assign Role
                         await _userManager.AddToRoleAsync(u, model.Role.ToString()); // Instructor / Student
                         return RedirectToAction("Login");
@@ -82,6 +85,18 @@ namespace IdentyDemo.Controllers
                 if (res.Succeeded)
                 {
                     var user = await _userManager.FindByEmailAsync(model.Email);
+                   
+                    //// 2. Create claims (THIS IS YOUR CODE)
+                    //var claims = new List<Claim>
+                    //{
+                    //    new Claim(ClaimTypes.Name, user.Name),
+                    //    new Claim(ClaimTypes.Role, user.Role) // Student / Instructor
+                    //};
+
+                    //var identity = new ClaimsIdentity(claims, "login");
+                    //var principal = new ClaimsPrincipal(identity);
+
+                    //await HttpContext.SignInAsync(principal);
 
                     if (user != null)
                     {

@@ -189,6 +189,32 @@ namespace LMS.Data
                     Feedback = null  
                 }
             );
+            // =========================
+            //  Role
+            // =========================
+            modelBuilder.Entity<IdentityRole>().HasData
+            (
+                new IdentityRole
+                {
+                    Id = "R1",
+                    Name = "Instructor",
+                    NormalizedName = "INSTRUCTOR"
+                },
+                new IdentityRole
+                {
+                    Id = "R2",
+                    Name = "Student",
+                    NormalizedName = "STUDENT"
+                }
+            );
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string> { UserId = "I1", RoleId = "R1" },
+                new IdentityUserRole<string> { UserId = "I2", RoleId = "R1" },
+                new IdentityUserRole<string> { UserId = "I3", RoleId = "R1" },
+
+                new IdentityUserRole<string> { UserId = "S1", RoleId = "R2" },
+                new IdentityUserRole<string> { UserId = "S2", RoleId = "R2" }
+            );
         }
     }
 }

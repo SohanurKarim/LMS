@@ -22,5 +22,9 @@ namespace LMS.Models.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Please Select Role")]
+        public string Role { get; set; } // Instructor / Student
     }
 }
+

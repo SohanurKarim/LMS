@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class First_fix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,13 +33,13 @@ namespace LMS.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserType = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -274,21 +274,42 @@ namespace LMS.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "R1", null, "Instructor", "INSTRUCTOR" },
+                    { "R2", null, "Student", "STUDENT" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType" },
                 values: new object[,]
                 {
-                    { "I1", 0, "3e3ed75d-ef2a-4ab4-a3ef-6c17ae6a8b39", new DateTime(2026, 4, 23, 12, 7, 5, 983, DateTimeKind.Local).AddTicks(9042), "smith@uni.com", false, false, null, null, "Dr. Smith", "SMITH@UNI.COM", "SMITH@UNI.COM", "AQAAAAIAAYagAAAAEGmmZra/4lfuYoNmBDrqjzED1TOxPJnPuCaIQtZE2I83OdUjT/Nu8+96taT3kRoTaQ==", null, false, 0, "768fc6fb-4896-4e89-b031-f4538d7017b6", false, "smith@uni.com", "User" },
-                    { "I2", 0, "f5968c9e-7c67-4cfb-84e9-87ab374b7145", new DateTime(2026, 4, 23, 12, 7, 6, 36, DateTimeKind.Local).AddTicks(211), "johnson@uni.com", false, false, null, null, "Dr. Johnson", "JOHNSON@UNI.COM", "JOHNSON@UNI.COM", "AQAAAAIAAYagAAAAEBqR4EYb7xIbkNAXd1fnUBxSe2CJ91gANeZUlM9QC/sNK9cSxxldTa4Pwunrb9emjQ==", null, false, 0, "9a0c99d0-d9b2-4d99-b47b-a803e581e27e", false, "johnson@uni.com", "User" },
-                    { "I3", 0, "797031e4-30f6-4e22-b49a-452d0710267c", new DateTime(2026, 4, 23, 12, 7, 6, 92, DateTimeKind.Local).AddTicks(7590), "lee@uni.com", false, false, null, null, "Dr. Lee", "LEE@UNI.COM", "LEE@UNI.COM", "AQAAAAIAAYagAAAAEC3G+wMUB59RAwFd95rZmyMfs8RuyvE2dfEjW7QnfJz+FmiRvYaGa6OrXimNKlbyCw==", null, false, 0, "79ce6402-fc40-481f-aa34-6f320d7aee14", false, "lee@uni.com", "User" },
-                    { "S1", 0, "2d75da69-7ead-480c-9914-92187e4d063c", new DateTime(2026, 4, 23, 12, 7, 6, 143, DateTimeKind.Local).AddTicks(5592), "student1@uni.com", false, false, null, null, "Student 1", "STUDENT1@UNI.COM", "STUDENT1@UNI.COM", "AQAAAAIAAYagAAAAEJlw9GMS9h/b4GwprgwEH6UvU57PEDHBgmnXv7d9FRHskUq/4ABWPKzgxVDpyfJygA==", null, false, 1, "29981f8d-0752-47c1-9958-64535091a5ae", false, "student1@uni.com", "User" },
-                    { "S2", 0, "5d0d3bfd-a186-42a6-aaf2-5ce816dcc134", new DateTime(2026, 4, 23, 12, 7, 6, 195, DateTimeKind.Local).AddTicks(2866), "student2@uni.com", false, false, null, null, "Student 2", "STUDENT2@UNI.COM", "STUDENT2@UNI.COM", "AQAAAAIAAYagAAAAECEn4GFdD/KFEJhFAEdkB5fpg2X465WFkiNz97S0PCydozzm6fJOOUUr5Fp6i0jpQg==", null, false, 1, "26002a05-13a9-4a74-9c2a-674a87ac5bb6", false, "student2@uni.com", "User" },
-                    { "S3", 0, "c6fef8fd-6787-449d-972c-be44bbb35678", new DateTime(2026, 4, 23, 12, 7, 6, 246, DateTimeKind.Local).AddTicks(6856), "student3@uni.com", false, false, null, null, "Student 3", "STUDENT3@UNI.COM", "STUDENT3@UNI.COM", "AQAAAAIAAYagAAAAEDLWorrj/l3VJ3d3VjL4viVAeECaFuqKy8UufVq7tJ2WkrDkOP7MpZjxyBvsXTCaYw==", null, false, 1, "0eab4826-4d95-426c-8e4b-57b7ab533bf4", false, "student3@uni.com", "User" },
-                    { "S4", 0, "97ca0052-31f4-4912-83cc-fdd2590cdec2", new DateTime(2026, 4, 23, 12, 7, 6, 301, DateTimeKind.Local).AddTicks(671), "student4@uni.com", false, false, null, null, "Student 4", "STUDENT4@UNI.COM", "STUDENT4@UNI.COM", "AQAAAAIAAYagAAAAECtSurK+1I6iB1bxxsCueC3AN2f5bjSzRMurWq3J+eG7SRjtv+LyLb+70qVyWvxKqw==", null, false, 1, "c9924525-ee25-4bf7-9c48-faae44805956", false, "student4@uni.com", "User" },
-                    { "S5", 0, "5bc90bc9-7d48-49a3-8395-73bf3971e494", new DateTime(2026, 4, 23, 12, 7, 6, 352, DateTimeKind.Local).AddTicks(5359), "student5@uni.com", false, false, null, null, "Student 5", "STUDENT5@UNI.COM", "STUDENT5@UNI.COM", "AQAAAAIAAYagAAAAEIaLowWn99gVpFg9DTAOAHhpayneu9utJoiWcCXkYAwvI4+o/lb+spAMq8FoybkXyQ==", null, false, 1, "db86736e-5c03-4a50-be26-46f407986b3b", false, "student5@uni.com", "User" },
-                    { "S6", 0, "9aeb560a-9ac5-4b4e-9d99-6cb0686f3042", new DateTime(2026, 4, 23, 12, 7, 6, 410, DateTimeKind.Local).AddTicks(6346), "student6@uni.com", false, false, null, null, "Student 6", "STUDENT6@UNI.COM", "STUDENT6@UNI.COM", "AQAAAAIAAYagAAAAECZroKPvVqvtZowlUBNEz7aRsIpYLkM1V7oBRKcx9DhQjBi1looegEf/INDz6ngqhg==", null, false, 1, "c52b9f04-6da7-4b2d-af5d-a0b71c0f72aa", false, "student6@uni.com", "User" },
-                    { "S7", 0, "09e04d4a-8f66-4120-baad-b1af6629c018", new DateTime(2026, 4, 23, 12, 7, 6, 488, DateTimeKind.Local).AddTicks(8979), "student7@uni.com", false, false, null, null, "Student 7", "STUDENT7@UNI.COM", "STUDENT7@UNI.COM", "AQAAAAIAAYagAAAAEIr0wJPFeyG96ZNHGEpOjqob03KJN9cYnBWQOVTZk2/Zgw1C2/IYQjtxrKBQfWzLKA==", null, false, 1, "780ac610-fafd-4549-85be-ed683542ffde", false, "student7@uni.com", "User" },
-                    { "S8", 0, "e1648e1b-1f54-4804-8f5f-d871d4a3e335", new DateTime(2026, 4, 23, 12, 7, 6, 540, DateTimeKind.Local).AddTicks(2062), "student8@uni.com", false, false, null, null, "Student 8", "STUDENT8@UNI.COM", "STUDENT8@UNI.COM", "AQAAAAIAAYagAAAAEJJIIQnaDcg71vQIuGG0aBiDuLXS9yL7q8BcEvDn0RBt9eO7aZGX0Gymm/0JoRdshA==", null, false, 1, "9ea6652d-0498-47b2-989b-4d8e4ec6bcc9", false, "student8@uni.com", "User" }
+                    { "I1", 0, "6e8ad6c3-37a8-4ea3-863f-a5b88a5b4616", new DateTime(2026, 4, 26, 16, 19, 0, 964, DateTimeKind.Local).AddTicks(4488), "smith@uni.com", false, false, null, null, "Dr. Smith", "SMITH@UNI.COM", "SMITH@UNI.COM", "AQAAAAIAAYagAAAAEJ976yXXLwjMpuQQrHB8vDtBOPSSCwvyxvDJLmj9ank5CFxxs+zlycyeiSIDQ41tnw==", null, false, 0, "3d66c328-b03b-4421-9546-44b2b7a361e7", false, "smith@uni.com", "User" },
+                    { "I2", 0, "872b9afa-1bbc-4002-9dc8-6b3186985bfc", new DateTime(2026, 4, 26, 16, 19, 1, 15, DateTimeKind.Local).AddTicks(6066), "johnson@uni.com", false, false, null, null, "Dr. Johnson", "JOHNSON@UNI.COM", "JOHNSON@UNI.COM", "AQAAAAIAAYagAAAAEEOsydHJAjikwXVQFrC0gfh9S4/RcwPRAZyvcyO3oGlV1NLFbBZ3RFWaOGjxbJSLiw==", null, false, 0, "9b0cf5d8-7a23-4d98-aafb-089f75db6d58", false, "johnson@uni.com", "User" },
+                    { "I3", 0, "438f078e-7255-4047-8997-ad63fa8eeeaa", new DateTime(2026, 4, 26, 16, 19, 1, 66, DateTimeKind.Local).AddTicks(1139), "lee@uni.com", false, false, null, null, "Dr. Lee", "LEE@UNI.COM", "LEE@UNI.COM", "AQAAAAIAAYagAAAAENbz2Q3W4oDH7jfVHfNrWQc7r6NLfS8cKfwrnpZLDZ1DiBzbCXM0/is+Cjpj97TfHw==", null, false, 0, "e502365a-4a8b-42bd-85d9-05f01f424984", false, "lee@uni.com", "User" },
+                    { "S1", 0, "1cfbb3ca-f6d3-48ac-ba79-1d3a15e5bee0", new DateTime(2026, 4, 26, 16, 19, 1, 116, DateTimeKind.Local).AddTicks(2527), "student1@uni.com", false, false, null, null, "Student 1", "STUDENT1@UNI.COM", "STUDENT1@UNI.COM", "AQAAAAIAAYagAAAAENyzeaaQPCCziiwsWgecbXZ+2ZZBQ4YN3Q6VGIikucHYWIAcRelJ8vRH3T4Rm4Ur7Q==", null, false, 1, "a0a2d1d7-a4b1-486e-88f0-dde774fcde6b", false, "student1@uni.com", "User" },
+                    { "S2", 0, "cc40595d-44c3-41d9-b5fc-f609e95f82a6", new DateTime(2026, 4, 26, 16, 19, 1, 179, DateTimeKind.Local).AddTicks(4981), "student2@uni.com", false, false, null, null, "Student 2", "STUDENT2@UNI.COM", "STUDENT2@UNI.COM", "AQAAAAIAAYagAAAAEDgHkFJJXXuinNbcFTXzU8FaJOxojf0PxK8SyiNLzj0mBqlGOocAmVep2TQtoSN8fA==", null, false, 1, "748688c2-0a79-46dd-a319-997a38263018", false, "student2@uni.com", "User" },
+                    { "S3", 0, "479aa6ea-6bbc-4daf-a98f-aa456f1a771c", new DateTime(2026, 4, 26, 16, 19, 1, 233, DateTimeKind.Local).AddTicks(8322), "student3@uni.com", false, false, null, null, "Student 3", "STUDENT3@UNI.COM", "STUDENT3@UNI.COM", "AQAAAAIAAYagAAAAEJaK80c58E8r9xqZwHBni0KKWrD37zboQxfREkTM2jwmW0EoJeDpFJIG2hmFeXE/dA==", null, false, 1, "b9596b8a-12d2-4db0-92de-c241b66e49fd", false, "student3@uni.com", "User" },
+                    { "S4", 0, "38e39728-fff4-4fe0-8501-f53348ddcf4f", new DateTime(2026, 4, 26, 16, 19, 1, 285, DateTimeKind.Local).AddTicks(9560), "student4@uni.com", false, false, null, null, "Student 4", "STUDENT4@UNI.COM", "STUDENT4@UNI.COM", "AQAAAAIAAYagAAAAEClENe/fWisHABxF51+y743/YTL0UzePZ7MHiwX79KCu+nwFY7Ybci48KE4wbunH/Q==", null, false, 1, "a6d8914b-5add-48ff-87b9-3ecce5c23e43", false, "student4@uni.com", "User" },
+                    { "S5", 0, "1df3e09f-f19c-4a32-99e9-032611158210", new DateTime(2026, 4, 26, 16, 19, 1, 336, DateTimeKind.Local).AddTicks(3046), "student5@uni.com", false, false, null, null, "Student 5", "STUDENT5@UNI.COM", "STUDENT5@UNI.COM", "AQAAAAIAAYagAAAAEMYb1nlPy91xVVE7+9yIBdzVnC0oKKGbmOvtjD9yY6GGEPKaxYSSrgfiaSwD7jh44w==", null, false, 1, "292237d1-18a2-4259-9c90-13a02d70c170", false, "student5@uni.com", "User" },
+                    { "S6", 0, "fac3aea8-a19c-4d6b-a1ad-081fe8de12a7", new DateTime(2026, 4, 26, 16, 19, 1, 389, DateTimeKind.Local).AddTicks(7153), "student6@uni.com", false, false, null, null, "Student 6", "STUDENT6@UNI.COM", "STUDENT6@UNI.COM", "AQAAAAIAAYagAAAAENbholLHqZ51EAt/nlyO5NTc4sRLwdmxfdA2xoFdZbO8GpdjIVf9fo3bZpSTqnWM1Q==", null, false, 1, "4084a422-4d8c-47a1-91e9-fce12a04e760", false, "student6@uni.com", "User" },
+                    { "S7", 0, "47c87be2-93fc-48dd-8c5c-40c68188266b", new DateTime(2026, 4, 26, 16, 19, 1, 439, DateTimeKind.Local).AddTicks(9450), "student7@uni.com", false, false, null, null, "Student 7", "STUDENT7@UNI.COM", "STUDENT7@UNI.COM", "AQAAAAIAAYagAAAAEEAVWCE0FdpJq07MdQpR9v3nKaokfB4NTvyLoW+7j1deOJbR+3HpVcpJ5Xv3AAqiiQ==", null, false, 1, "2f981060-b233-4b39-a053-beecce0d7515", false, "student7@uni.com", "User" },
+                    { "S8", 0, "ceace6cc-f514-4666-b48e-20bc666bd80e", new DateTime(2026, 4, 26, 16, 19, 1, 498, DateTimeKind.Local).AddTicks(6927), "student8@uni.com", false, false, null, null, "Student 8", "STUDENT8@UNI.COM", "STUDENT8@UNI.COM", "AQAAAAIAAYagAAAAEDh15mK3yhXSZ+oAsH2S8Su/TG86LDw1ZbrOlqE4eMirK0ReD4tJEhL0S64x+23xTQ==", null, false, 1, "f3db2bb6-a7b9-47af-b99f-e5186149530b", false, "student8@uni.com", "User" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "R1", "I1" },
+                    { "R1", "I2" },
+                    { "R1", "I3" },
+                    { "R2", "S1" },
+                    { "R2", "S2" }
                 });
 
             migrationBuilder.InsertData(
@@ -296,9 +317,9 @@ namespace LMS.Migrations
                 columns: new[] { "Id", "CreatedDate", "Credits", "Description", "EndDate", "InstructorId", "InstructorId1", "MaxEnrollment", "StartDate", "Title" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4050), 3, "Basics of coding", new DateTime(2026, 8, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4007), "I1", null, 30, new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(3991), "Introduction to Programming" },
-                    { 2, new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4062), 3, "Advanced data handling", new DateTime(2026, 8, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4061), "I2", null, 25, new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4060), "Data Structures" },
-                    { 3, new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4064), 3, "ASP.NET Core", new DateTime(2026, 8, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4064), "I3", null, 20, new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4063), "Web Development" }
+                    { 1, new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6259), 3, "Basics of coding", new DateTime(2026, 8, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6235), "I1", null, 30, new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6222), "Introduction to Programming" },
+                    { 2, new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6278), 3, "Advanced data handling", new DateTime(2026, 8, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6277), "I2", null, 25, new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6277), "Data Structures" },
+                    { 3, new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6280), 3, "ASP.NET Core", new DateTime(2026, 8, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6280), "I3", null, 20, new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6279), "Web Development" }
                 });
 
             migrationBuilder.InsertData(

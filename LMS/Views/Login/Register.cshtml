@@ -23,6 +23,16 @@
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+                @* Here role selction instructor / student *@
+                <div class="mb-3">
+                    <label asp-for="Role" class="form-label fw-bold"></label>
+                    <select asp-for="Role" class="form-select">
+                        <option value="">Select Role</option>
+                        <option value="Student">Student</option>
+                        <option value="Instructor">Instructor</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
                 <div class="mb-3">
                     <label asp-for="Password" class="form-label fw-bold"></label>
                     <input asp-for="Password" class="form-control" type="password" />

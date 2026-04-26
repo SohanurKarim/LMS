@@ -129,37 +129,37 @@ namespace LMS.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4050),
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6259),
                             Credits = 3,
                             Description = "Basics of coding",
-                            EndDate = new DateTime(2026, 8, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4007),
+                            EndDate = new DateTime(2026, 8, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6235),
                             InstructorId = "I1",
                             MaxEnrollment = 30,
-                            StartDate = new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(3991),
+                            StartDate = new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6222),
                             Title = "Introduction to Programming"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4062),
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6278),
                             Credits = 3,
                             Description = "Advanced data handling",
-                            EndDate = new DateTime(2026, 8, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4061),
+                            EndDate = new DateTime(2026, 8, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6277),
                             InstructorId = "I2",
                             MaxEnrollment = 25,
-                            StartDate = new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4060),
+                            StartDate = new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6277),
                             Title = "Data Structures"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4064),
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6280),
                             Credits = 3,
                             Description = "ASP.NET Core",
-                            EndDate = new DateTime(2026, 8, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4064),
+                            EndDate = new DateTime(2026, 8, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6280),
                             InstructorId = "I3",
                             MaxEnrollment = 20,
-                            StartDate = new DateTime(2026, 4, 23, 12, 7, 6, 590, DateTimeKind.Local).AddTicks(4063),
+                            StartDate = new DateTime(2026, 4, 26, 16, 19, 1, 548, DateTimeKind.Local).AddTicks(6279),
                             Title = "Web Development"
                         });
                 });
@@ -272,11 +272,10 @@ namespace LMS.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -352,18 +351,18 @@ namespace LMS.Migrations
                         {
                             Id = "I1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e3ed75d-ef2a-4ab4-a3ef-6c17ae6a8b39",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 5, 983, DateTimeKind.Local).AddTicks(9042),
+                            ConcurrencyStamp = "6e8ad6c3-37a8-4ea3-863f-a5b88a5b4616",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 0, 964, DateTimeKind.Local).AddTicks(4488),
                             Email = "smith@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Smith",
                             NormalizedEmail = "SMITH@UNI.COM",
                             NormalizedUserName = "SMITH@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGmmZra/4lfuYoNmBDrqjzED1TOxPJnPuCaIQtZE2I83OdUjT/Nu8+96taT3kRoTaQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ976yXXLwjMpuQQrHB8vDtBOPSSCwvyxvDJLmj9ank5CFxxs+zlycyeiSIDQ41tnw==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "768fc6fb-4896-4e89-b031-f4538d7017b6",
+                            SecurityStamp = "3d66c328-b03b-4421-9546-44b2b7a361e7",
                             TwoFactorEnabled = false,
                             UserName = "smith@uni.com"
                         },
@@ -371,18 +370,18 @@ namespace LMS.Migrations
                         {
                             Id = "I2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f5968c9e-7c67-4cfb-84e9-87ab374b7145",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 36, DateTimeKind.Local).AddTicks(211),
+                            ConcurrencyStamp = "872b9afa-1bbc-4002-9dc8-6b3186985bfc",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 15, DateTimeKind.Local).AddTicks(6066),
                             Email = "johnson@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Johnson",
                             NormalizedEmail = "JOHNSON@UNI.COM",
                             NormalizedUserName = "JOHNSON@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBqR4EYb7xIbkNAXd1fnUBxSe2CJ91gANeZUlM9QC/sNK9cSxxldTa4Pwunrb9emjQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEOsydHJAjikwXVQFrC0gfh9S4/RcwPRAZyvcyO3oGlV1NLFbBZ3RFWaOGjxbJSLiw==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "9a0c99d0-d9b2-4d99-b47b-a803e581e27e",
+                            SecurityStamp = "9b0cf5d8-7a23-4d98-aafb-089f75db6d58",
                             TwoFactorEnabled = false,
                             UserName = "johnson@uni.com"
                         },
@@ -390,18 +389,18 @@ namespace LMS.Migrations
                         {
                             Id = "I3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "797031e4-30f6-4e22-b49a-452d0710267c",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 92, DateTimeKind.Local).AddTicks(7590),
+                            ConcurrencyStamp = "438f078e-7255-4047-8997-ad63fa8eeeaa",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 66, DateTimeKind.Local).AddTicks(1139),
                             Email = "lee@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Lee",
                             NormalizedEmail = "LEE@UNI.COM",
                             NormalizedUserName = "LEE@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC3G+wMUB59RAwFd95rZmyMfs8RuyvE2dfEjW7QnfJz+FmiRvYaGa6OrXimNKlbyCw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENbz2Q3W4oDH7jfVHfNrWQc7r6NLfS8cKfwrnpZLDZ1DiBzbCXM0/is+Cjpj97TfHw==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "79ce6402-fc40-481f-aa34-6f320d7aee14",
+                            SecurityStamp = "e502365a-4a8b-42bd-85d9-05f01f424984",
                             TwoFactorEnabled = false,
                             UserName = "lee@uni.com"
                         },
@@ -409,18 +408,18 @@ namespace LMS.Migrations
                         {
                             Id = "S1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d75da69-7ead-480c-9914-92187e4d063c",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 143, DateTimeKind.Local).AddTicks(5592),
+                            ConcurrencyStamp = "1cfbb3ca-f6d3-48ac-ba79-1d3a15e5bee0",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 116, DateTimeKind.Local).AddTicks(2527),
                             Email = "student1@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 1",
                             NormalizedEmail = "STUDENT1@UNI.COM",
                             NormalizedUserName = "STUDENT1@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJlw9GMS9h/b4GwprgwEH6UvU57PEDHBgmnXv7d9FRHskUq/4ABWPKzgxVDpyfJygA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENyzeaaQPCCziiwsWgecbXZ+2ZZBQ4YN3Q6VGIikucHYWIAcRelJ8vRH3T4Rm4Ur7Q==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "29981f8d-0752-47c1-9958-64535091a5ae",
+                            SecurityStamp = "a0a2d1d7-a4b1-486e-88f0-dde774fcde6b",
                             TwoFactorEnabled = false,
                             UserName = "student1@uni.com"
                         },
@@ -428,18 +427,18 @@ namespace LMS.Migrations
                         {
                             Id = "S2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5d0d3bfd-a186-42a6-aaf2-5ce816dcc134",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 195, DateTimeKind.Local).AddTicks(2866),
+                            ConcurrencyStamp = "cc40595d-44c3-41d9-b5fc-f609e95f82a6",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 179, DateTimeKind.Local).AddTicks(4981),
                             Email = "student2@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 2",
                             NormalizedEmail = "STUDENT2@UNI.COM",
                             NormalizedUserName = "STUDENT2@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECEn4GFdD/KFEJhFAEdkB5fpg2X465WFkiNz97S0PCydozzm6fJOOUUr5Fp6i0jpQg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDgHkFJJXXuinNbcFTXzU8FaJOxojf0PxK8SyiNLzj0mBqlGOocAmVep2TQtoSN8fA==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "26002a05-13a9-4a74-9c2a-674a87ac5bb6",
+                            SecurityStamp = "748688c2-0a79-46dd-a319-997a38263018",
                             TwoFactorEnabled = false,
                             UserName = "student2@uni.com"
                         },
@@ -447,18 +446,18 @@ namespace LMS.Migrations
                         {
                             Id = "S3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c6fef8fd-6787-449d-972c-be44bbb35678",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 246, DateTimeKind.Local).AddTicks(6856),
+                            ConcurrencyStamp = "479aa6ea-6bbc-4daf-a98f-aa456f1a771c",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 233, DateTimeKind.Local).AddTicks(8322),
                             Email = "student3@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 3",
                             NormalizedEmail = "STUDENT3@UNI.COM",
                             NormalizedUserName = "STUDENT3@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDLWorrj/l3VJ3d3VjL4viVAeECaFuqKy8UufVq7tJ2WkrDkOP7MpZjxyBvsXTCaYw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJaK80c58E8r9xqZwHBni0KKWrD37zboQxfREkTM2jwmW0EoJeDpFJIG2hmFeXE/dA==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "0eab4826-4d95-426c-8e4b-57b7ab533bf4",
+                            SecurityStamp = "b9596b8a-12d2-4db0-92de-c241b66e49fd",
                             TwoFactorEnabled = false,
                             UserName = "student3@uni.com"
                         },
@@ -466,18 +465,18 @@ namespace LMS.Migrations
                         {
                             Id = "S4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97ca0052-31f4-4912-83cc-fdd2590cdec2",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 301, DateTimeKind.Local).AddTicks(671),
+                            ConcurrencyStamp = "38e39728-fff4-4fe0-8501-f53348ddcf4f",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 285, DateTimeKind.Local).AddTicks(9560),
                             Email = "student4@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 4",
                             NormalizedEmail = "STUDENT4@UNI.COM",
                             NormalizedUserName = "STUDENT4@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECtSurK+1I6iB1bxxsCueC3AN2f5bjSzRMurWq3J+eG7SRjtv+LyLb+70qVyWvxKqw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEClENe/fWisHABxF51+y743/YTL0UzePZ7MHiwX79KCu+nwFY7Ybci48KE4wbunH/Q==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "c9924525-ee25-4bf7-9c48-faae44805956",
+                            SecurityStamp = "a6d8914b-5add-48ff-87b9-3ecce5c23e43",
                             TwoFactorEnabled = false,
                             UserName = "student4@uni.com"
                         },
@@ -485,18 +484,18 @@ namespace LMS.Migrations
                         {
                             Id = "S5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5bc90bc9-7d48-49a3-8395-73bf3971e494",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 352, DateTimeKind.Local).AddTicks(5359),
+                            ConcurrencyStamp = "1df3e09f-f19c-4a32-99e9-032611158210",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 336, DateTimeKind.Local).AddTicks(3046),
                             Email = "student5@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 5",
                             NormalizedEmail = "STUDENT5@UNI.COM",
                             NormalizedUserName = "STUDENT5@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIaLowWn99gVpFg9DTAOAHhpayneu9utJoiWcCXkYAwvI4+o/lb+spAMq8FoybkXyQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMYb1nlPy91xVVE7+9yIBdzVnC0oKKGbmOvtjD9yY6GGEPKaxYSSrgfiaSwD7jh44w==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "db86736e-5c03-4a50-be26-46f407986b3b",
+                            SecurityStamp = "292237d1-18a2-4259-9c90-13a02d70c170",
                             TwoFactorEnabled = false,
                             UserName = "student5@uni.com"
                         },
@@ -504,18 +503,18 @@ namespace LMS.Migrations
                         {
                             Id = "S6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9aeb560a-9ac5-4b4e-9d99-6cb0686f3042",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 410, DateTimeKind.Local).AddTicks(6346),
+                            ConcurrencyStamp = "fac3aea8-a19c-4d6b-a1ad-081fe8de12a7",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 389, DateTimeKind.Local).AddTicks(7153),
                             Email = "student6@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 6",
                             NormalizedEmail = "STUDENT6@UNI.COM",
                             NormalizedUserName = "STUDENT6@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECZroKPvVqvtZowlUBNEz7aRsIpYLkM1V7oBRKcx9DhQjBi1looegEf/INDz6ngqhg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENbholLHqZ51EAt/nlyO5NTc4sRLwdmxfdA2xoFdZbO8GpdjIVf9fo3bZpSTqnWM1Q==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "c52b9f04-6da7-4b2d-af5d-a0b71c0f72aa",
+                            SecurityStamp = "4084a422-4d8c-47a1-91e9-fce12a04e760",
                             TwoFactorEnabled = false,
                             UserName = "student6@uni.com"
                         },
@@ -523,18 +522,18 @@ namespace LMS.Migrations
                         {
                             Id = "S7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "09e04d4a-8f66-4120-baad-b1af6629c018",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 488, DateTimeKind.Local).AddTicks(8979),
+                            ConcurrencyStamp = "47c87be2-93fc-48dd-8c5c-40c68188266b",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 439, DateTimeKind.Local).AddTicks(9450),
                             Email = "student7@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 7",
                             NormalizedEmail = "STUDENT7@UNI.COM",
                             NormalizedUserName = "STUDENT7@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIr0wJPFeyG96ZNHGEpOjqob03KJN9cYnBWQOVTZk2/Zgw1C2/IYQjtxrKBQfWzLKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEAVWCE0FdpJq07MdQpR9v3nKaokfB4NTvyLoW+7j1deOJbR+3HpVcpJ5Xv3AAqiiQ==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "780ac610-fafd-4549-85be-ed683542ffde",
+                            SecurityStamp = "2f981060-b233-4b39-a053-beecce0d7515",
                             TwoFactorEnabled = false,
                             UserName = "student7@uni.com"
                         },
@@ -542,18 +541,18 @@ namespace LMS.Migrations
                         {
                             Id = "S8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e1648e1b-1f54-4804-8f5f-d871d4a3e335",
-                            CreatedDate = new DateTime(2026, 4, 23, 12, 7, 6, 540, DateTimeKind.Local).AddTicks(2062),
+                            ConcurrencyStamp = "ceace6cc-f514-4666-b48e-20bc666bd80e",
+                            CreatedDate = new DateTime(2026, 4, 26, 16, 19, 1, 498, DateTimeKind.Local).AddTicks(6927),
                             Email = "student8@uni.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Student 8",
                             NormalizedEmail = "STUDENT8@UNI.COM",
                             NormalizedUserName = "STUDENT8@UNI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJJIIQnaDcg71vQIuGG0aBiDuLXS9yL7q8BcEvDn0RBt9eO7aZGX0Gymm/0JoRdshA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDh15mK3yhXSZ+oAsH2S8Su/TG86LDw1ZbrOlqE4eMirK0ReD4tJEhL0S64x+23xTQ==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "9ea6652d-0498-47b2-989b-4d8e4ec6bcc9",
+                            SecurityStamp = "f3db2bb6-a7b9-47af-b99f-e5186149530b",
                             TwoFactorEnabled = false,
                             UserName = "student8@uni.com"
                         });
@@ -584,6 +583,20 @@ namespace LMS.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "R1",
+                            Name = "Instructor",
+                            NormalizedName = "INSTRUCTOR"
+                        },
+                        new
+                        {
+                            Id = "R2",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -671,6 +684,33 @@ namespace LMS.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "I1",
+                            RoleId = "R1"
+                        },
+                        new
+                        {
+                            UserId = "I2",
+                            RoleId = "R1"
+                        },
+                        new
+                        {
+                            UserId = "I3",
+                            RoleId = "R1"
+                        },
+                        new
+                        {
+                            UserId = "S1",
+                            RoleId = "R2"
+                        },
+                        new
+                        {
+                            UserId = "S2",
+                            RoleId = "R2"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

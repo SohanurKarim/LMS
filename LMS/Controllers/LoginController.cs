@@ -34,27 +34,36 @@ namespace IdentyDemo.Controllers
                 {
                     Name = model.Name,
                     Email = model.Email,
-                    NormalizedEmail= model.Email,
                     UserName = model.Email,
-                    NormalizedUserName = model.Email,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
                 };
-                var res = await _userManager.CreateAsync(u, model.Password);
-                if (res.Succeeded)
+                try
                 {
-                    EmailHelper emailHelper = new EmailHelper();
-                    string subject = "Welcome to our website!";
-                    string message = $"Dear {model.Name},<br><br>Thank you for registering on our website! We are excited to have you as a member of our community.<br>Your User Id: "+model.Email+ "<br>Your Password Id: "+model.Password+"<br><br>Best regards,<br><font color='blue'> SFDW Team";
-                    emailHelper.SendEmail(model.Email, subject, message);
-                    return RedirectToAction("Login");
-                }
-                else
-                {
-                    foreach (var item in res.Errors)
+                    var res = await _userManager.CreateAsync(u, model.Password);
+                    if (res.Succeeded)
                     {
-                        ModelState.AddModelError("", item.Description);
+                        //EmailHelper emailHelper = new EmailHelper();
+                        //string subject = "Welcome to our website!";
+                        //string message = $"Dear {model.Name},<br><br>Thank you for registering on our website! We are excited to have you as a member of our community.<br>Your User Id: " + model.Email + "<br>Your Password Id: " + model.Password + "<br><br>Best regards,<br><font color='blue'> SFDW Team";
+                        //emailHelper.SendEmail(model.Email, subject, message);
+                        ////Here Assign Role
+                        await _userManager.AddToRoleAsync(u, model.Role.ToString()); // Instructor / Student
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        foreach (var item in res.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while creating the user: " + ex.Message);
 
+                }
             }
             return View(model);
         }
@@ -75,17 +84,13 @@ namespace IdentyDemo.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Email);
 
                     if (user != null)
-                    {                        
+                    {
 
                         if (await _userManager.IsInRoleAsync(user, "Instructor"))
-                        {
                             return RedirectToAction("Instructor", "Dashboard");
-                        }
 
                         if (await _userManager.IsInRoleAsync(user, "Student"))
-                        {
                             return RedirectToAction("Student", "Dashboard");
-                        }
                     }
 
                     return RedirectToAction("Index", "Home");

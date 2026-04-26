@@ -46,6 +46,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
+
 
 namespace LMS.Controllers
 {
@@ -56,14 +58,17 @@ namespace LMS.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public DashboardController(LmsContext context, UserManager<User> userManager)
+        public DashboardController(LmsContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Instructor()
         {
+            // Get logged-in user (BEST WAY)
+            
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
@@ -90,8 +95,11 @@ namespace LMS.Controllers
                 .CountAsync();
 
             var pendingAssignments = await _context.StudentAssignments
-                .Where(sa => courseIds.Contains(sa.Assignment.CourseId)
-                          && sa.Status == AssignmentStatus.Pending)
+                .Include(sa => sa.Assignment)
+                .Where(sa =>
+                    sa.Assignment != null &&
+                    courseIds.Contains(sa.Assignment.CourseId) &&
+                    sa.Status == AssignmentStatus.Pending)
                 .CountAsync();
 
             var vm = new DashboardViewModel

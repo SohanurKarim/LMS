@@ -27,7 +27,7 @@ namespace LMS.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var courses =  await _context.Courses
+            var courses = await _context.Courses
                 .Where(c => c.InstructorId == _userManager.GetUserId(User))
                 .ToListAsync();
             return View(courses);
@@ -72,20 +72,20 @@ namespace LMS.Controllers
             {
                 //if (ModelState.IsValid)
                 //{
-                    var instructorId = _userManager.GetUserId(User);
+                var instructorId = _userManager.GetUserId(User);
 
-                    if (instructorId == null)
-                    {
-                        return Unauthorized();
-                    }
+                if (instructorId == null)
+                {
+                    return Unauthorized();
+                }
 
-                    course.InstructorId = instructorId;
-                    course.CreatedDate = DateTime.UtcNow;
+                course.InstructorId = instructorId;
+                course.CreatedDate = DateTime.UtcNow;
 
-                    _context.Add(course);
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction(nameof(Index));
+                _context.Add(course);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Course Created successfully!";
+                return RedirectToAction(nameof(Index));
                 //}
                 return View(course);
             }
@@ -126,31 +126,31 @@ namespace LMS.Controllers
 
             //if (ModelState.IsValid)
             //{
-                try
-                {
-                    var existingCourse = await _context.Courses.FindAsync(id);
+            try
+            {
+                var existingCourse = await _context.Courses.FindAsync(id);
 
-                    if (existingCourse == null)
-                        return NotFound();
+                if (existingCourse == null)
+                    return NotFound();
 
-                    existingCourse.Title = course.Title;
-                    existingCourse.Description = course.Description;
-                    existingCourse.Credits = course.Credits;
-                    existingCourse.MaxEnrollment = course.MaxEnrollment;
-                    existingCourse.StartDate = course.StartDate;
-                    existingCourse.EndDate = course.EndDate;
+                existingCourse.Title = course.Title;
+                existingCourse.Description = course.Description;
+                existingCourse.Credits = course.Credits;
+                existingCourse.MaxEnrollment = course.MaxEnrollment;
+                existingCourse.StartDate = course.StartDate;
+                existingCourse.EndDate = course.EndDate;
 
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CourseExists(course.Id))
-                        return NotFound();
-                    else
-                        throw;
-                }
-
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(course.Id))
+                    return NotFound();
+                else
+                    throw;
+            }
+            TempData["Success"] = "Course updated successfully!";
+            return RedirectToAction(nameof(Index));
             //}
 
             return View(course);
@@ -191,7 +191,23 @@ namespace LMS.Controllers
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
             }
+            TempData["Success"] = "Course deleted successfully!";
             return RedirectToAction(nameof(Index));
+        }
+
+        //Here show which course is active and not active list
+        [Authorize(Roles = "Instructor")]
+        [HttpGet]
+        public async Task<IActionResult> ActiveCourses()
+        {
+            var instructorId = _userManager.GetUserId(User);
+            var courses = await _context.Courses
+                .Where(c => c.InstructorId == instructorId)
+                .ToListAsync();
+            //var activeCourses = await _context.Courses
+            //    .Where(c => c.InstructorId == instructorId && c.StartDate <= DateTime.UtcNow && c.EndDate >= DateTime.UtcNow)
+            //    .ToListAsync();
+            return View(courses);
         }
     }
 }

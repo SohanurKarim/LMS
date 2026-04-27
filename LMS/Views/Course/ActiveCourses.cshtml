@@ -1,23 +1,11 @@
 ﻿@model IEnumerable<LMS.Models.Course>
 
 @{
-    ViewData["Title"] = "Courses";
-}
-@if (TempData["Success"] != null)
-{
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: '@TempData["Success"]',
-            timer: 2000,
-            showConfirmButton: false
-        });
-    </script>
+    ViewData["Title"] = "Active Courses";
 }
 
 <h2 class="mb-4 fw-bold">
-    <i class="bi bi-journal-bookmark-fill text-primary"></i> Courses List
+    <i class="bi bi-journal-bookmark-fill text-primary"></i> Active Courses
 </h2>
 
 <div class="card shadow-sm">
@@ -39,7 +27,7 @@
                     <th><i class="bi bi-people"></i> Max</th>
                     <th><i class="bi bi-calendar-event"></i> Start</th>
                     <th><i class="bi bi-calendar-x"></i> End</th>
-                    <th><i class="bi bi-gear"></i> Actions</th>
+                    <th><i class="bi bi-activity"></i> Status</th>
                 </tr>
             </thead>
 
@@ -84,28 +72,19 @@
                             @item.EndDate.ToString("dd MMM yyyy")
                         </td>
 
-                        <!-- ACTION BUTTONS -->
                         <td>
-                            <a class="btn btn-sm btn-outline-success rounded-pill"
-                               asp-action="Edit" asp-route-id="@item.Id">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-
-                            <a class="btn btn-sm btn-outline-warning rounded-pill"
-                               asp-action="Details" asp-route-id="@item.Id">
-                                <i class="bi bi-eye"></i>
-                            </a>
-
-                            @* <a class="btn btn-sm btn-outline-danger rounded-pill"
-                               asp-action="Delete" asp-route-id="@item.Id"
-                               onclick="return confirm('Are you sure to delete this course?');">
-                                <i class="bi bi-trash"></i>
-                            </a> *@
-                            <a href="javascript:void(0);"
-                               class="btn btn-sm btn-outline-danger rounded-pill delete-btn"
-                               data-id="@item.Id">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            @if (item.EndDate >= DateTime.Now)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="bi bi-check-circle"></i> Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    <i class="bi bi-x-circle"></i> Inactive
+                                </span>
+                            }
                         </td>
 
                     </tr>
@@ -116,35 +95,9 @@
         @if (!Model.Any())
         {
             <div class="text-center text-muted py-4">
-                <i class="bi bi-exclamation-circle"></i> No courses available
+                <i class="bi bi-exclamation-circle"></i> No courses found
             </div>
         }
 
     </div>
 </div>
-@section Scripts {
-    <script>
-        document.querySelectorAll(".delete-btn").forEach(button => {
-            button.addEventListener("click", function () {
-
-                let id = this.getAttribute("data-id");
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "This course will be permanently deleted!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#6c757d",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "Cancel"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/Course/Delete/' + id;
-                    }
-                });
-
-            });
-        });
-    </script>
-}

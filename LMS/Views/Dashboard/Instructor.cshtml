@@ -74,7 +74,7 @@
                 @if (Model.TotalCourses > 0)
                 {
                     <p>You are managing active courses.</p>
-                    <a asp-page="/Courses/Index" class="btn btn-sm btn-primary">View Courses</a>
+                    <a asp-controller="Course" asp-action="ActiveCourses" class="btn btn-sm btn-primary">View Courses</a>
                 }
                 else
                 {
@@ -94,7 +94,7 @@
             </div>
             <div class="card-body">
 
-                <a asp-page="/Courses/Create" class="btn btn-success btn-sm mb-2">
+                <a asp-controller="Course" asp-action="Create" class="btn btn-success btn-sm mb-2">
                     ➕ Create Course
                 </a>
 
@@ -102,7 +102,7 @@
                     ➕ Add Assignment
                 </a>
 
-                <a asp-page="/Enrollments/Index" class="btn btn-info btn-sm mb-2">
+                <a asp-controller="Enrollment" asp-action="Index" class="btn btn-info btn-sm mb-2">
                     👥 View Enrollments
                 </a>
 

@@ -1,0 +1,264 @@
+﻿@* @model LMS.Models.ViewModels.EnrollmentViewModel
+
+@{
+    ViewData["Title"] = "Course Enrollment";
+}
+
+<h2>Enroll Students</h2>
+
+<hr />
+
+<!-- COURSE INFO -->
+<div class="card mb-3">
+    <div class="card-header bg-dark text-white">
+        Course Info
+    </div>
+    <div class="card-body">
+        <h5>@Model.Course.Title</h5>
+        <p>@Model.Course.Description</p>
+
+        <p>
+            <strong>Capacity:</strong>
+            @Model.TotalEnrolled / @Model.MaxCapacity
+        </p>
+
+        @if (Model.IsFull)
+        {
+            <span class="text-danger">Course is Full</span>
+        }
+        else
+        {
+            <span class="text-success">Seats Available</span>
+        }
+    </div>
+</div>
+
+<!-- ENROLL FORM -->
+<div class="card mb-3">
+    <div class="card-header bg-primary text-white">
+        Add Student
+    </div>
+    <div class="card-body">
+
+        <form asp-action="Enroll" method="post">
+            <input type="hidden" asp-for="CourseId" />
+
+            <div class="form-group mb-2">
+                <label>Select Student</label>
+                <select asp-for="SelectedStudentId" class="form-control">
+                    <option value="">-- Select Student --</option>
+
+                    @foreach (var student in Model.Students)
+                    {
+                        if (!Model.IsEnrolled(student.Id))
+                        {
+                            <option value="@student.Id">
+                                @student.UserName
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success"
+                    @(Model.IsFull ? "disabled" : "")>
+                Enroll
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<!-- ENROLLED STUDENTS LIST -->
+<div class="card">
+    <div class="card-header bg-info text-white">
+        Enrolled Students
+    </div>
+
+    <div class="card-body">
+
+        @if (Model.EnrolledStudents.Any())
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.EnrolledStudents)
+                    {
+                        <tr>
+                            <td>@item.StudentId</td>
+
+                            <td>
+                                <form asp-action="Remove" method="post">
+                                    <input type="hidden" name="courseId" value="@Model.CourseId" />
+                                    <input type="hidden" name="studentId" value="@item.StudentId" />
+
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Remove
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No students enrolled yet.</p>
+        }
+
+    </div>
+</div>
+
+<!-- ALERT MESSAGES -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["Error"]
+    </div>
+} *@
+
+@model IEnumerable<LMS.Models.StudentCourse>
+
+@{
+    ViewData["Title"] = "Enrollments List";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+    </div>
+}
+<h2 class="mb-4 fw-bold">📚 Student Enrollments List</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="bi bi-book"></i> Course</th>
+                    <th><i class="bi bi-person"></i> Student</th>
+                    <th><i class="bi bi-calendar-date"></i> Enrolled Date</th>
+                    <th><i class="bi bi-activity"></i> Status</th>
+                    <th><i class="bi bi-gear"></i> Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="fw-semibold text-primary">
+                                @item.Course?.Title
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-info text-dark px-3 py-2">
+                                @item.Student?.UserName
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="text-muted">
+                                @item.EnrollmentDate.ToString("dd MMM yyyy")
+                            </span>
+                        </td>
+                        <td>
+                            @if (item.Course?.EndDate < DateTime.Now)
+                            {
+                                <span class="badge bg-secondary">Expired</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                        </td>
+                        <td>
+                            @* <form asp-action="Remove" method="post" class="d-inline">
+                                <input type="hidden" name="courseId" value="@item.CourseId" />
+                                <input type="hidden" name="studentId" value="@item.StudentId" />
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                     Remove
+                                </button>
+                            </form>    
+                            *@
+                            @if (item.Course?.EndDate < DateTime.Now)
+                            {
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill" disabled>
+                                    <i class="bi bi-lock"></i> Locked
+                                </button>
+                            }
+                            else
+                            {
+                                @* <form asp-action="Remove" method="post" class="d-inline delete-form"
+                                      onsubmit="return confirm('Remove this student from course?');"> *@
+
+                                <form asp-action="Remove" method="post" class="d-inline delete-form">
+                                    <input type="hidden" name="courseId" value="@item.CourseId" />
+                                    <input type="hidden" name="studentId" value="@item.StudentId" />
+
+                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">
+                                        <i class="bi bi-trash"></i> Remove
+                                    </button>
+                                </form>
+                            }
+                      
+                         </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center text-muted py-4">
+                🚫 No enrollments found
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll(".delete-form").forEach(form => {
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault(); // stop default submit
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "The enrollment will be permanently removed!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#6c757d",
+                    confirmButtonText: "Yes, remove it!",
+                    cancelButtonText: "Cancel"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit(); // real POST submit
+                    }
+
+                });
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,146 @@
+﻿@model IEnumerable<LMS.Models.Assignment>
+
+@{
+    ViewData["Title"] = "Assignments";
+}
+
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+
+}
+
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-journal-text text-primary"></i> Assignments List
+</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <!-- CREATE BUTTON -->
+        <div class="mb-3">
+            <a class="btn btn-primary rounded-pill" asp-action="Create">
+                <i class="bi bi-plus-circle"></i> Create Assignment
+            </a>
+        </div>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="bi bi-card-heading"></i> Title</th>
+                    <th><i class="bi bi-book"></i> Course</th>
+                    <th><i class="bi bi-star"></i> Max Points</th>
+                    <th><i class="bi bi-clock"></i> Created</th>
+                    <th><i class="bi bi-calendar-event"></i> Due Date</th>
+                    <th><i class="bi bi-gear"></i> Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(item.DueDate < DateTime.Now ? "table-light" : "")">
+
+                        <!-- TITLE -->
+                        <td class="fw-semibold text-primary">
+                            @item.Title
+                        </td>
+
+                        <!-- COURSE -->
+                        <td>
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-book"></i> @item.Course?.Title
+                            </span>
+                        </td>
+
+                        <!-- MAX POINTS -->
+                        <td>
+                            <span class="badge bg-info text-dark">
+                                @item.MaxPoints
+                            </span>
+                        </td>
+
+                        <!-- CREATED DATE -->
+                        <td>
+                            <i class="bi bi-clock text-success"></i>
+                            @item.CreatedDate.ToString("dd MMM yyyy")
+                        </td>
+
+                        <!-- DUE DATE -->
+                        <td>
+                            <i class="bi bi-calendar-x text-danger"></i>
+                            @item.DueDate.ToString("dd MMM yyyy")
+                        </td>
+
+
+                        <!-- ACTIONS -->
+                        <td>
+
+                            <a class="btn btn-sm btn-outline-success rounded-pill"
+                               asp-action="Edit" asp-route-id="@item.Id">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <a class="btn btn-sm btn-outline-warning rounded-pill"
+                               asp-action="Details" asp-route-id="@item.Id">
+                                <i class="bi bi-eye"></i>
+                            </a>
+
+                            <a href="javascript:void(0);"
+                               class="btn btn-sm btn-outline-danger rounded-pill delete-btn"
+                               data-id="@item.Id">
+                                <i class="bi bi-trash"></i>
+                            </a>
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center text-muted py-4">
+                <i class="bi bi-exclamation-circle"></i> No assignments available
+            </div>
+        }
+
+    </div>
+</div>
+
+<!-- SWEETALERT DELETE SCRIPT -->
+@section Scripts {
+    <script>
+        document.querySelectorAll(".delete-btn").forEach(button => {
+            button.addEventListener("click", function () {
+
+                let id = this.getAttribute("data-id");
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This assignment will be removed!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#6c757d",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/Assignment/Delete/' + id;
+                    }
+                });
+
+            });
+        });
+    </script>
+}

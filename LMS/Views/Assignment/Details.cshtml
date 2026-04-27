@@ -1,0 +1,101 @@
+﻿@model LMS.Models.Assignment
+
+@{
+    ViewData["Title"] = "Assignment Details";
+}
+
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-journal-text text-primary"></i> Assignment Details
+</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <!-- TITLE -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-card-heading"></i> Title
+            </dt>
+            <dd class="col-sm-9 text-primary fw-semibold">
+                @Model.Title
+            </dd>
+
+            <!-- COURSE -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-book"></i> Course
+            </dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-secondary">
+                    @Model.Course?.Title
+                </span>
+            </dd>
+
+            <!-- MAX POINTS -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-star"></i> Max Points
+            </dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-info text-dark">
+                    @Model.MaxPoints
+                </span>
+            </dd>
+
+            <!-- DUE DATE -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-calendar-x"></i> Due Date
+            </dt>
+            <dd class="col-sm-9">
+                <i class="bi bi-clock text-danger"></i>
+                @Model.DueDate.ToString("dd MMM yyyy")
+            </dd>
+
+            <!-- CREATED DATE -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-calendar-plus"></i> Created Date
+            </dt>
+            <dd class="col-sm-9">
+                <i class="bi bi-clock text-success"></i>
+                @Model.CreatedDate.ToString("dd MMM yyyy")
+            </dd>
+
+            <!-- STATUS -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-activity"></i> Status
+            </dt>
+            <dd class="col-sm-9">
+
+                @if (Model.DueDate >= DateTime.Now)
+                {
+                    <span class="badge bg-success">
+                        <i class="bi bi-check-circle"></i> Active
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">
+                        <i class="bi bi-x-circle"></i> Overdue
+                    </span>
+                }
+
+            </dd>
+
+        </dl>
+
+        <!-- ACTION BUTTONS -->
+        <div class="mt-4 d-flex gap-2">
+
+            <a asp-action="Edit" asp-route-id="@Model.Id"
+               class="btn btn-primary rounded-pill">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-secondary rounded-pill">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+
+        </div>
+
+    </div>
+</div>

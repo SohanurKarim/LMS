@@ -1,0 +1,80 @@
+﻿@model LMS.Models.Assignment
+
+@{
+    ViewData["Title"] = "Create Assignment";
+}
+
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-plus-square text-primary"></i> Create Assignment
+</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form asp-action="Create" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- TITLE -->
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">
+                    <i class="bi bi-card-heading"></i> Title
+                </label>
+                <input asp-for="Title" class="form-control" placeholder="Enter assignment title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <!-- COURSE -->
+            <div class="mb-3">
+                <label asp-for="CourseId" class="form-label">
+                    <i class="bi bi-book"></i> Course
+                </label>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courses">
+                    <option value="">-- Select Course --</option>
+                </select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+
+   
+
+            <!-- MAX POINTS -->
+            <div class="mb-3">
+                <label asp-for="MaxPoints" class="form-label">
+                    <i class="bi bi-star"></i> Max Points
+                </label>
+                <input asp-for="MaxPoints" class="form-control" placeholder="e.g. 100" />
+                <span asp-validation-for="MaxPoints" class="text-danger"></span>
+            </div>
+
+            <!-- DUE DATE -->
+            <div class="mb-3">
+                <label asp-for="DueDate" class="form-label">
+                    <i class="bi bi-calendar-x"></i> Due Date
+                </label>
+                <input asp-for="DueDate" type="date" class="form-control" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="mt-4 d-flex gap-2">
+
+                <button type="submit" class="btn btn-primary rounded-pill">
+                    <i class="bi bi-check-circle"></i> Create
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary rounded-pill">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

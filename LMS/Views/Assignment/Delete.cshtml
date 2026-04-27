@@ -1,11 +1,11 @@
-﻿@model LMS.Models.Course
+﻿@model LMS.Models.Assignment
 
 @{
-    ViewData["Title"] = "Delete Course";
+    ViewData["Title"] = "Delete Assignment";
 }
 
 <h2 class="mb-4 fw-bold text-danger">
-    <i class="bi bi-exclamation-triangle-fill"></i> Delete Course
+    <i class="bi bi-exclamation-triangle-fill"></i> Delete Assignment
 </h2>
 
 <div class="card shadow-sm border-danger">
@@ -15,79 +15,56 @@
         <!-- HEADER WITH LOGO -->
         @* <div class="d-flex align-items-center mb-3">
             <img src="~/images/logo.png" width="40" height="40" class="me-2" />
-            <h5 class="mb-0 text-danger">Course Deletion</h5>
+            <h5 class="mb-0 text-danger">Assignment Deletion</h5>
         </div> *@
 
         <!-- WARNING BOX -->
         <div class="alert alert-danger d-flex align-items-center">
             <i class="bi bi-exclamation-circle-fill me-2"></i>
-            <strong>Warning!</strong>&nbsp;This course and all related data will be permanently removed.
+            <strong>Warning!</strong>&nbsp;This assignment will be permanently removed.
         </div>
 
         <!-- DETAILS -->
         <dl class="row">
 
             <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-book"></i> Title
+                <i class="bi bi-card-heading"></i> Title
             </dt>
             <dd class="col-sm-9 text-primary fw-semibold">
                 @Model.Title
             </dd>
 
             <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-card-text"></i> Description
-            </dt>
-            <dd class="col-sm-9">
-                @Model.Description
-            </dd>
-
-            <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-person-badge"></i> Instructor
+                <i class="bi bi-book"></i> Course
             </dt>
             <dd class="col-sm-9">
                 <span class="badge bg-secondary">
-                    @Model.InstructorId
+                    @Model.Course?.Title
                 </span>
             </dd>
 
             <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-award"></i> Credits
+                <i class="bi bi-star"></i> Max Points
             </dt>
             <dd class="col-sm-9">
                 <span class="badge bg-info text-dark">
-                    @Model.Credits
+                    @Model.MaxPoints
                 </span>
             </dd>
 
             <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-people"></i> Max Enrollment
-            </dt>
-            <dd class="col-sm-9">
-                <span class="badge bg-warning text-dark">
-                    @Model.MaxEnrollment
-                </span>
-            </dd>
-
-            <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-calendar-check"></i> Start Date
-            </dt>
-            <dd class="col-sm-9">
-                <i class="bi bi-clock text-success"></i>
-                @Model.StartDate.ToString("dd MMM yyyy")
-            </dd>
-
-            <dt class="col-sm-3 fw-semibold">
-                <i class="bi bi-calendar-x"></i> End Date
+                <i class="bi bi-calendar-x"></i> Due Date
             </dt>
             <dd class="col-sm-9">
                 <i class="bi bi-clock text-danger"></i>
-                @Model.EndDate.ToString("dd MMM yyyy")
+                @Model.DueDate.ToString("dd MMM yyyy")
             </dd>
 
             <dt class="col-sm-3 fw-semibold">
                 <i class="bi bi-calendar-plus"></i> Created Date
             </dt>
             <dd class="col-sm-9">
+                <i class="bi bi-clock text-success"></i>
                 @Model.CreatedDate.ToString("dd MMM yyyy")
             </dd>
 

@@ -311,6 +311,11 @@ namespace LMS.Controllers
             return View();
         }
 
+        //******Below code for Access Denied*******
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
     }
 }

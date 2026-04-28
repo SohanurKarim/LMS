@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-// add dbcontext
+// 1.add dbcontext
 builder.Services.AddDbContext<LmsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // end add dbcontext
@@ -45,19 +45,27 @@ builder.Services.AddIdentity<User, IdentityRole>(
     .AddEntityFrameworkStores<LmsContext>()
     .AddDefaultTokenProviders();
 
-// Here add cookie authentication
+// 3.Here add cookie authentication
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
     {
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Home/AccessDenied";
     });
-
+// 4.Here add authorization
 builder.Services.AddAuthorization();
+
+// 5.Here add session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Here create roles
+// 6.Here create roles
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -86,8 +94,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();   // must come before UseAuthorization
+app.UseAuthentication();   // 7.must come before UseAuthorization
 app.UseAuthorization();
+
+app.UseSession(); // 8.must come after UseAuthorization
 
 app.MapControllerRoute(
     name: "default",

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+@inject SignInManager<User> SignInManager
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -36,16 +39,46 @@
 
                 <!-- BUTTONS -->
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
-
-                    <a asp-controller="Course" asp-action="Index"
-                       class="btn btn-light btn-lg rounded-pill px-4 shadow-sm">
-                        🎓 Explore Courses
+                    @* role wise button show hide *@
+                    @if(SignInManager.IsSignedIn(User) && User.IsInRole("Instructor"))
+                    {
+                        <a asp-controller="Course" asp-action="Index"
+                           class="btn btn-light btn-lg rounded-pill px-4 shadow-sm">
+                            🎓 Explore Courses
+                        </a>
+                    }
+                    else if(SignInManager.IsSignedIn(User) && User.IsInRole("Student"))
+                    {
+                        <a asp-controller="Course" asp-action="CourseDetails"
+                           class="btn btn-light btn-lg rounded-pill px-4 shadow-sm">
+                            🎓 Explore Courses
+                        </a>
+                    }else{
+                        <a asp-controller="Account" asp-action="Login"
+                           class="btn btn-light btn-lg rounded-pill px-4 shadow-sm">
+                            🎓 Explore Courses
                     </a>
-
-                    <a asp-controller="Account" asp-action="Register"
-                       class="btn btn-outline-light btn-lg rounded-pill px-4">
-                        ✨ Get Started Free
-                    </a>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Instructor"))
+                    {
+                        <a asp-controller="Dashboard" asp-action="Instructor"
+                           class="btn btn-outline-light btn-lg rounded-pill px-4">
+                            ✨ Get Started Free
+                        </a>
+                    }else if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))
+                    {
+                        <a asp-controller="Dashboard" asp-action="Student"
+                           class="btn btn-outline-light btn-lg rounded-pill px-4">
+                            ✨ Get Started Free
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Register"
+                           class="btn btn-outline-light btn-lg rounded-pill px-4">
+                            ✨ Get Started Free
+                        </a>
+                    }
 
                 </div>
 
@@ -386,11 +419,27 @@
 
         <h2 class="fw-bold">Start Your Learning Journey Today</h2>
         <p class="text-muted">Join thousands of learners and upgrade your career</p>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Instructor"))
+        {
+            <a asp-controller="Dashboard" asp-action="Instructor"
+               class="btn btn-primary btn-lg rounded-pill">
+                Get Started
+            </a>
+        }else if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))
+        {
+            <a asp-controller="Dashboard" asp-action="Student"
+               class="btn btn-primary btn-lg rounded-pill">
+                Get Started
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Register"
+               class="btn btn-primary btn-lg rounded-pill">
+                Get Started
+            </a>
+        }
 
-        <a asp-controller="Account" asp-action="Register"
-           class="btn btn-primary btn-lg rounded-pill">
-            Get Started
-        </a>
 
     </div>
 

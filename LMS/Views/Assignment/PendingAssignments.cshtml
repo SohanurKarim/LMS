@@ -1,0 +1,292 @@
+﻿@* @model IEnumerable<LMS.Models.ViewModels.PendingAssignmentViewModel>
+
+@{
+    ViewData["Title"] = "Pending Assignments";
+}
+@if(TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+}
+
+
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-hourglass-split text-warning"></i> Pending Assignments
+</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Student</th>
+                    <th>Assignment</th>
+                    <th>Course</th>
+                    <th>Submitted Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <!-- Student -->
+                        <td class="fw-semibold text-primary">
+                            @item.StudentName
+                        </td>
+
+                        <!-- Assignment -->
+                        <td>
+                            @item.AssignmentTitle
+                        </td>
+
+                        <!-- Course -->
+                        <td>
+                            <span class="badge bg-secondary">
+                                @item.CourseTitle
+                            </span>
+                        </td>
+
+                        <!--Course Marks-->
+                        <td>
+                            <span class="badge bg-info text-dark">
+                                @item.MarksObtained / @item.MaxMarks
+                            </span>
+                        </td>
+
+                        <!-- Submitted Date -->
+                        <td>
+                            <i class="bi bi-calendar"></i>
+                            @item.SubmittedDate.ToString("dd MMM yyyy")
+                        </td>
+
+                        <!-- Action -->
+                        <td>
+                            <form asp-action="Approve" method="post">
+                                <input type="hidden" name="id" value="@item.StudentAssignmentId" />
+
+                                <button class="btn btn-success btn-sm">
+                                    Approve
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center text-muted py-4">
+                <i class="bi bi-check-circle"></i> No pending assignments
+            </div>
+        }
+
+    </div>
+</div> *@
+
+@model IEnumerable<LMS.Models.ViewModels.PendingAssignmentViewModel>
+
+@{
+    ViewData["Title"] = "Pending Assignments";
+}
+@* 
+<div class="text-center mb-4">
+    <img src="~/images/logo.png" width="80" />
+    <h3 class="fw-bold">Instructor Panel</h3>
+</div> *@
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-hourglass-split text-warning"></i> Pending Assignments
+</h2>
+
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]'
+        });
+    </script>
+}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="bi bi-person"></i> Student</th>
+                    <th><i class="bi bi-journal-text"></i> Assignment</th>
+                    <th><i class="bi bi-book"></i> Course</th>
+                    <th><i class="bi bi-star"></i> Marks</th>
+                    <th><i class="bi bi-calendar"></i> Submitted Date</th>
+                    <th><i class="bi bi-info-circle"></i> Status</th>
+                    <th><i class="bi bi-gear"></i> Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.StudentName</td>
+                        <td>@item.AssignmentTitle</td>
+                        <td>@item.CourseTitle</td>
+
+                        <td>
+                            <span class="badge bg-info">
+                                @item.EarnedMark / @item.AssignmentMark
+                            </span>
+                        </td>
+                        @* submittion Date *@
+                        <td>
+                            @* <i class="bi bi-calendar"></i> *@
+                            @item.SubmittedDate?.ToString("dd MMM yyyy")
+                        </td>
+
+                        <td>
+                            @if(@item.Status==1)
+                            {
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else if(@item.Status==2)
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                        </td>
+
+                        <td>
+
+                            <!-- VIEW -->
+                            <a asp-action="AssignmentDetails" asp-route-id="@item.AssignmentId"
+                               class="btn btn-primary btn-sm">
+                                View
+                            </a>
+
+                            <!-- APPROVE -->
+                            <button class="btn btn-success btn-sm approve-btn"
+                                    data-studentid="@item.StudentId"
+                                    data-assignmentid="@item.AssignmentId"
+                                    @(item.Status == 2 || item.Status == 1 ? "disabled" : "")>
+                                Approve
+                            </button>
+
+                            <!-- REJECT -->
+                            <form asp-action="Reject" method="post" style="display:inline">
+                                <input type="hidden" name="studentId" value="@item.StudentId" />
+                                <input type="hidden" name="assignmentId" value="@item.AssignmentId" />
+
+                                <button class="btn btn-danger btn-sm"
+                                        @(item.Status == 2 || item.Status == 1 ? "disabled" : "")>
+                                    Reject
+                                </button>
+                            </form>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- BACK BUTTON -->
+        <div class="mt-4 text-end">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // document.querySelectorAll(".approve-btn").forEach(btn => {
+        //     btn.addEventListener("click", function () {
+
+        //         let id = this.getAttribute("data-id");
+
+        //         Swal.fire({
+        //             title: 'Approve Assignment',
+        //             html:
+        //                 '<input id="mark" class="swal2-input" placeholder="Enter Marks">' +
+        //                 '<textarea id="feedback" class="swal2-textarea" placeholder="Feedback"></textarea>',
+        //             confirmButtonText: 'Approve',
+        //             showCancelButton: true,
+        //             preConfirm: () => {
+        //                 return {
+        //                     mark: document.getElementById('mark').value,
+        //                     feedback: document.getElementById('feedback').value
+        //                 }
+        //             }
+        //         }).then((result) => {
+        //             if (result.isConfirmed) {
+
+        //                 let form = document.createElement("form");
+        //                 form.method = "post";
+        //                 form.action = "/Assignment/Approve";
+
+        //                 form.innerHTML =
+        //                     `<input type="hidden" name="id" value="${id}" />
+        //                      <input type="hidden" name="earnedMark" value="${result.value.mark}" />
+        //                      <input type="hidden" name="feedback" value="${result.value.feedback}" />`;
+
+        //                 document.body.appendChild(form);
+        //                 form.submit();
+        //             }
+        //         });
+        //     });
+        // });
+                document.querySelectorAll(".approve-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+
+                let studentId = this.getAttribute("data-studentid");
+                let assignmentId = this.getAttribute("data-assignmentid");
+
+                Swal.fire({
+                    title: 'Approve Assignment',
+                    html:
+                        '<input id="mark" class="swal2-input" placeholder="Enter Marks">' +
+                        '<textarea id="feedback" class="swal2-textarea" placeholder="Feedback"></textarea>',
+                    confirmButtonText: 'Approve',
+                    showCancelButton: true,
+                    preConfirm: () => {
+                        return {
+                            mark: document.getElementById('mark').value,
+                            feedback: document.getElementById('feedback').value
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        let form = document.createElement("form");
+                        form.method = "post";
+                        form.action = "/Assignment/Approve";
+
+                        form.innerHTML =
+                            `<input type="hidden" name="studentId" value="${studentId}" />
+                             <input type="hidden" name="assignmentId" value="${assignmentId}" />
+                             <input type="hidden" name="earnedMark" value="${result.value.mark}" />
+                             <input type="hidden" name="feedback" value="${result.value.feedback}" />`;
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+}

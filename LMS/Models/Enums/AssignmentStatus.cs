@@ -3,7 +3,10 @@
     public enum AssignmentStatus
     {
         Pending,
+        Approved,
+        Rejected,
         Submitted,
-        Graded
+        Graded     
+
     }
 }

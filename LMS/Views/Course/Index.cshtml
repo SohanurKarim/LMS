@@ -58,7 +58,10 @@
 
                         <td>
                             <span class="badge bg-secondary">
-                                <i class="bi bi-person"></i> @item.InstructorId
+                                @* <i class="bi bi-person"></i> @item.InstructorId *@
+                                @* Here i can show instructor name *@
+                                <i class="bi bi-person"></i>  @(item.Instructor?.UserName ?? "N/A")
+                               
                             </span>
                         </td>
 

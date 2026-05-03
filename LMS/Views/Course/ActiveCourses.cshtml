@@ -46,7 +46,7 @@
 
                         <td>
                             <span class="badge bg-secondary">
-                                <i class="bi bi-person"></i> @item.InstructorId
+                                <i class="bi bi-person"></i> @(item.Instructor?.UserName ?? "N/A")
                             </span>
                         </td>
 
@@ -98,6 +98,11 @@
                 <i class="bi bi-exclamation-circle"></i> No courses found
             </div>
         }
-
+        <!-- BACK BUTTON -->
+        <div class="mt-4 text-end">
+            <a asp-controller="Dashboard" asp-action="Instructor" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
     </div>
 </div>

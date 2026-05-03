@@ -27,9 +27,14 @@ namespace LMS.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            //var courses = await _context.Courses
+            //    .Where(c => c.InstructorId == _userManager.GetUserId(User))
+            //    .ToListAsync();
+            var instructorId = _userManager.GetUserId(User);
             var courses = await _context.Courses
-                .Where(c => c.InstructorId == _userManager.GetUserId(User))
-                .ToListAsync();
+                         .Include(c => c.Instructor)
+                         .Where(c => c.InstructorId == instructorId)
+                         .ToListAsync();
             return View(courses);
         }
 
@@ -202,6 +207,7 @@ namespace LMS.Controllers
         {
             var instructorId = _userManager.GetUserId(User);
             var courses = await _context.Courses
+                .Include(c => c.Instructor)
                 .Where(c => c.InstructorId == instructorId)
                 .ToListAsync();
             //var activeCourses = await _context.Courses

@@ -30,6 +30,10 @@
             <a class="btn btn-primary rounded-pill" asp-action="Create">
                 <i class="bi bi-plus-circle"></i> Create Assignment
             </a>
+            @* pending assignment list button*@
+            <a class="btn btn-warning rounded-pill" asp-action="PendingAssignments">
+                <i class="bi bi-hourglass-split"></i> Pending Assignments
+            </a>
         </div>
 
         <table class="table table-hover align-middle">
@@ -113,8 +117,15 @@
                 <i class="bi bi-exclamation-circle"></i> No assignments available
             </div>
         }
+        <!-- BACK BUTTON -->
+        <div class="mt-4 text-end">
+            <a asp-controller="Dashboard" asp-action="Instructor" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
 
     </div>
+
 </div>
 
 <!-- SWEETALERT DELETE SCRIPT -->

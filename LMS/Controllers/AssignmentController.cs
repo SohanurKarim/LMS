@@ -86,13 +86,13 @@ namespace LMS.Controllers
             //if (ModelState.IsValid)
             //{
             //    assignment.CreatedDate = DateTime.UtcNow;
-                assignment.Deleted = false;
+            assignment.Deleted = false;
 
-                _context.Assignments.Add(assignment);
-                await _context.SaveChangesAsync();
+            _context.Assignments.Add(assignment);
+            await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Assignment created successfully!";
-                return RedirectToAction(nameof(Index));
+            TempData["Success"] = "Assignment created successfully!";
+            return RedirectToAction(nameof(Index));
             //}
 
             //ViewBag.Courses = new SelectList(
@@ -409,6 +409,21 @@ namespace LMS.Controllers
                 return NotFound();
 
             return View(data);
+        }
+        ///////////********Student Role Start Here*********///////////
+        //Here Assignment list show for students
+        [Authorize(Roles = "Student")]
+        [HttpGet]
+        public async Task<IActionResult> StudentAssignments()
+        {
+            var studentId = _userManager.GetUserId(User);
+            var assignments = await _context.StudentAssignments
+                .Include(s => s.Assignment)
+                .ThenInclude(a => a.Course)
+                .Include(s => s.Student)
+                .Where(s => s.StudentId == studentId).ToListAsync();
+            if (assignments == null) return NotFound();
+            return View(assignments);
         }
     }
 }

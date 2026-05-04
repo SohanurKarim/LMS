@@ -9,4 +9,13 @@
         Graded     
 
     }
+    public enum EnrollmentStatus
+    {
+        Unenrolled,
+        Enrolled,
+        Pending,
+        Approved,
+        Rejected,
+    }
+
 }

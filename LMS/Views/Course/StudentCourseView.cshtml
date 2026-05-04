@@ -1,0 +1,275 @@
+﻿@using LMS.Models.Enums
+@model LMS.Models.Course
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]'
+        });
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '@TempData["Error"]'
+        });
+    </script>
+}
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-journal-text text-primary"></i> Course Details
+</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-book"></i> Title
+            </dt>
+            <dd class="col-sm-9 text-primary fw-semibold">
+                @Model.Title
+            </dd>
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-card-text"></i> Description
+            </dt>
+            <dd class="col-sm-9">
+                @Model.Description
+            </dd>
+            <!--Instructor Name-->
+             <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-person"></i> Instructor
+            </dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-secondary">
+                    <i class="bi bi-person-circle"></i>
+                    @(Model.Instructor?.Name ?? "N/A")
+                </span>
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-award"></i> Credits
+            </dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-info text-dark">
+                    @Model.Credits
+                </span>
+            </dd>
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-people"></i> Max Enrollment
+            </dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-warning text-dark">
+                    @Model.MaxEnrollment
+                </span>
+            </dd>
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-calendar-check"></i> Start Date
+            </dt>
+            <dd class="col-sm-9">
+                <i class="bi bi-clock text-success"></i>
+                @Model.StartDate.ToString("dd MMM yyyy")
+            </dd>
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-calendar-x"></i> End Date
+            </dt>
+            <dd class="col-sm-9">
+                <i class="bi bi-clock text-danger"></i>
+                @Model.EndDate.ToString("dd MMM yyyy")
+            </dd>
+
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-calendar-plus"></i> Created Date
+            </dt>
+            <dd class="col-sm-9">
+                @Model.CreatedDate.ToString("dd MMM yyyy")
+            </dd>
+
+            <!-- Course Fee -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-cash-coin text-success"></i> Course Fee
+            </dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-success px-3 py-2">
+                    @* <i class="bi bi-currency-exchange me-1"></i> *@
+                    ৳ @Model.CourseFee.ToString("N0")
+                </span>
+            </dd>
+
+            <!-- STATUS -->
+            <dt class="col-sm-3 fw-semibold">
+                <i class="bi bi-activity"></i> Status
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.EndDate >= DateTime.Now)
+                {
+                    <span class="badge bg-success">
+                        <i class="bi bi-check-circle"></i> Active
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">
+                        <i class="bi bi-x-circle"></i> Inactive
+                    </span>
+                }
+            </dd>
+
+        </dl>
+
+        <!-- ACTION BUTTONS -->
+        <div class="mt-4 d-flex gap-2">
+            @if (ViewBag.Status == EnrollmentStatus.Approved)
+            {
+                <button class="btn btn-success rounded-pill" disabled>
+                    <i class="bi bi-check-circle"></i> Enrolled
+                </button>
+            }
+            else if (ViewBag.Status == EnrollmentStatus.Pending)
+            {
+                <button class="btn btn-warning rounded-pill" disabled>
+                    <i class="bi bi-hourglass"></i> Pending Approval
+                </button>
+            }
+            else if (ViewBag.Status == EnrollmentStatus.Rejected)
+            {
+                <button class="btn btn-danger rounded-pill" disabled>
+                    <i class="bi bi-x-circle"></i> Rejected
+                </button>
+            }
+            else
+            {
+                @* <a asp-action="Enroll" asp-route-id="@Model.Id"
+                   class="btn btn-success rounded-pill">
+                    <i class="bi bi-person-plus"></i> Enroll Now
+                </a> *@
+                <button class="btn btn-success rounded-pill enroll-btn"
+                        data-courseid="@Model.Id"
+                        data-fee="@Model.CourseFee">
+                    <i class="bi bi-person-plus"></i> Enroll Now
+                </button>
+            }
+
+            <a asp-action="StudentCourseList"
+               class="btn btn-secondary rounded-pill">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    document.querySelector(".enroll-btn").addEventListener("click", function () {
+
+        let courseId = this.getAttribute("data-courseid");
+        let fee = this.getAttribute("data-fee");
+
+        Swal.fire({
+            title: '<i class="bi bi-credit-card text-primary"></i> Course Payment',
+                html: `
+                    <div class="text-start">
+
+                        <label class="fw-bold mb-2">Select Payment Method</label>
+
+                        <div class="payment-option mb-2 d-flex justify-content-center align-items-center"
+                             data-value="Bkash">
+
+                            <img src="https://images.seeklogo.com/logo-png/27/1/bkash-logo-png_seeklogo-273684.png"
+                                 width="80">
+                        </div>
+
+                        <div class="payment-option mb-2 d-flex justify-content-center align-items-center" data-value="Nagad">
+                            <img src="https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png" width="80">
+                        </div>
+
+                        <div class="payment-option mb-2 d-flex justify-content-center align-items-center" data-value="Rocket">
+                            <img src="https://images.seeklogo.com/logo-png/31/1/dutch-bangla-rocket-logo-png_seeklogo-317692.png" width="80">
+                        </div>
+
+                        <div class="payment-option mb-3 d-flex justify-content-center align-items-center" data-value="Card">
+                            <img src="https://wallpapers.com/images/hd/visa-mastercard-logos-overlap-tmyvzc5a6jj6p9am.png" width="70">
+                        </div>
+
+                        <input type="hidden" id="paymentMethod" />
+
+                        <label class="fw-bold mb-1">Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">৳</span>
+                            <input id="amount" class="form-control" value="${fee}" readonly />
+                        </div>
+
+                    </div>
+                    `,
+            confirmButtonText: '<i class="bi bi-check-circle"></i> Confirm & Enroll',
+            cancelButtonText: 'Cancel',
+            showCancelButton: true,
+            focusConfirm: false,
+            customClass: {
+                    popup: 'rounded-4 shadow-lg',
+                    actions: 'd-flex justify-content-center gap-3',
+                    confirmButton: 'btn btn-success px-4',
+                    cancelButton: 'btn btn-secondary px-4'
+            },
+            buttonsStyling: false,
+            didOpen: () => {
+                                document.querySelectorAll(".payment-option").forEach(option => {
+                                option.style.cursor = "pointer";
+                                option.style.padding = "10px";
+                                option.style.border = "2px solid #ddd";
+                                option.style.borderRadius = "10px";
+
+                                option.addEventListener("click", function () {
+                                    document.querySelectorAll(".payment-option")
+                                        .forEach(o => o.style.border = "2px solid #ddd");
+
+                                    this.style.border = "2px solid green";
+
+                                    document.getElementById("paymentMethod").value =
+                                        this.getAttribute("data-value");
+                                      });
+                                   });
+                             },
+            preConfirm: () => {
+                let method = document.getElementById('paymentMethod').value;
+                let amount = document.getElementById('amount').value;
+
+                if (!method) {
+                    Swal.showValidationMessage("Please select a payment method!");
+                    return false;
+                }
+
+                return { paymentMethod: method, amount: amount };
+            }
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                let form = document.createElement("form");
+                form.method = "post";
+                form.action = "/Course/Enroll";
+
+                form.innerHTML =
+                    `<input type="hidden" name="courseId" value="${courseId}" />
+                     <input type="hidden" name="paymentMethod" value="${result.value.paymentMethod}" />
+                     <input type="hidden" name="amount" value="${result.value.amount}" />`;
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+
+    });
+</script>

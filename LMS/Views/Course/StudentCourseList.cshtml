@@ -1,0 +1,109 @@
+﻿@model IEnumerable<LMS.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]'
+        });
+    </script>
+}
+<h2 class="mb-4 fw-bold">
+    <i class="bi bi-journal-bookmark-fill text-primary"></i> Courses List
+</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="bi bi-book"></i> Title</th>
+                    <th><i class="bi bi-card-text"></i> Description</th>
+                    @* <th><i class="bi bi-person"></i> Instructor</th> *@
+                    <th><i class="bi bi-award"></i> Credits</th>
+                    <th><i class="bi bi-people"></i> Max</th>
+                    <th><i class="bi bi-calendar-check"></i> Start</th>
+                    <th><i class="bi bi-calendar-x"></i> End</th>
+                    <th><i class="bi bi-cash"></i> Fee</th>
+                    <th><i class="bi bi-gear"></i> Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(item.EndDate < DateTime.Now ? "table-light" : "")">
+
+                        <td class="fw-semibold text-primary">
+                            <i class="bi bi-bookmark"></i> @item.Title
+                        </td>
+
+                        <td>
+                            @item.Description
+                        </td>
+
+                        @* <td>
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-person-circle"></i>
+                                @(item.Instructor?.Name ?? "N/A")
+                            </span>
+                        </td> *@
+
+                        <td>
+                            <span class="badge bg-info text-dark">
+                                @item.Credits
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                @item.MaxEnrollment
+                            </span>
+                        </td>
+
+                        <td>
+                            <i class="bi bi-calendar-check text-success"></i>
+                            @item.StartDate.ToString("dd MMM yyyy")
+                        </td>
+
+                        <td>
+                            <i class="bi bi-calendar-x text-danger"></i>
+                            @item.EndDate.ToString("dd MMM yyyy")
+                        </td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                @* $@((item.Credits * 100) + (item.MaxEnrollment * 10)) *@
+                                ৳ @item.CourseFee
+                            </span>
+                        </td>
+
+                        <td>
+                            <a class="btn btn-sm btn-outline-warning rounded-pill"
+                               asp-controller="Course"
+                               asp-action="StudentCourseView"
+                               asp-route-id="@item.Id">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center text-muted py-4">
+                <i class="bi bi-exclamation-circle"></i> No courses available
+            </div>
+        }
+
+    </div>
+</div>

@@ -1,4 +1,6 @@
-﻿namespace LMS.Models
+﻿using LMS.Models.Enums;
+
+namespace LMS.Models
 {
     public class StudentCourse    {
    
@@ -12,5 +14,6 @@
         public DateTime EnrollmentDate { get; set; }
 
         public decimal? Grade { get; set; }
+        public EnrollmentStatus Status { get; set; }
     }
 }

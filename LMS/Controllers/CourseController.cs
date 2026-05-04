@@ -1,5 +1,6 @@
 ﻿using LMS.Data;
 using LMS.Models;
+using LMS.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -214,6 +215,77 @@ namespace LMS.Controllers
             //    .Where(c => c.InstructorId == instructorId && c.StartDate <= DateTime.UtcNow && c.EndDate >= DateTime.UtcNow)
             //    .ToListAsync();
             return View(courses);
+        }
+
+        ///////////********Student Role Start Here*********///////////
+        //Here course list show for students
+        [Authorize(Roles = "Student")]
+        [HttpGet]
+        public async Task<IActionResult> StudentCourseList()
+        {
+            var courses = await _context.Courses
+                .Include(c => c.Instructor)
+                .ToListAsync();
+
+            return View(courses);
+        }
+        //Here course details show for students 
+        [Authorize(Roles = "Student")]
+        [HttpGet]
+        public async Task<IActionResult> StudentCourseView(int id)
+        {
+            var studentId = _userManager.GetUserId(User);
+
+            var course = await _context.Courses
+                .Include(c => c.Instructor)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (course == null)
+                return NotFound();
+
+            var enrollment = await _context.StudentCourses
+                .FirstOrDefaultAsync(e =>
+                    e.StudentId == studentId &&
+                    e.CourseId == id);
+
+            ViewBag.Status = enrollment?.Status;
+
+            return View(course);
+        }
+        // Here Course Enrollement with fee by student
+        [Authorize(Roles = "Student")]
+        [HttpPost]
+        public async Task<IActionResult> Enroll(int courseId, string paymentMethod, decimal amount)
+        {
+            var studentId = _userManager.GetUserId(User);
+
+            // Already enrolled check
+            var exists = await _context.StudentCourses
+                .AnyAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+
+            if (exists)
+            {
+                TempData["Error"] = "You already applied for this course!";
+                return RedirectToAction("StudentCourseView", new { id = courseId });
+            }
+
+            var enrollment = new StudentCourse
+            {
+                StudentId = studentId,
+                CourseId = courseId,
+                EnrollmentDate = DateTime.Now,
+                Status = EnrollmentStatus.Pending, 
+                Grade = null
+            };
+
+            // Optional: store payment info 
+            // Otherwise you can extend StudentCourse with PaymentMethod, Amount
+
+            _context.StudentCourses.Add(enrollment);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Enrollment submitted! Waiting for approval.";
+            return RedirectToAction("StudentCourseView", new { id = courseId });
         }
     }
 }

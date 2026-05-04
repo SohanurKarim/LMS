@@ -15,6 +15,7 @@ namespace LMS.Models
         
         public User Instructor { get; set; }
         public int Credits { get; set; }
+        public int CourseFee { get; set; }
 
         public int MaxEnrollment { get; set; }
 
